@@ -1,49 +1,99 @@
-import React, { Component } from "react";
+import * as React from "react";
 import {
-  View,
+  Image,
   Text,
+  View,
+  AsyncStorage,
   StyleSheet,
-  TouchableOpacity,
-  StatusBar,
-  ActivityIndicator
+  ScrollView,
+  Dimensions
 } from "react-native";
-import * as Font from "expo-font";
+import firebase from "firebase";
+import getGithubTokenAsync from "../support/getGithubTokenAsync";
+import GithubButton from "../components/GithubButton";
 
-export class Login extends Component {
-  state = {
-    assetsLoaded: false
-  };
+const GithubStorageKey = "@Expo:GithubToken";
+const { width, height } = Dimensions.get("window");
 
-  async componentDidMount() {
-    await Font.loadAsync({
-      "RobotoMono-BoldItalic": require("../assets/fonts/RobotoMono-BoldItalic.ttf")
-    });
-    this.setState({ assetsLoaded: true });
+async function signInAsync(token) {
+  try {
+    if (!token) {
+      const token = await getGithubTokenAsync();
+      if (token) {
+        await AsyncStorage.setItem(GithubStorageKey, token);
+        return signInAsync(token);
+      } else {
+        return;
+      }
+    }
+    state = { isSignedIn: true };
+    const credential = firebase.auth.GithubAuthProvider.credential(token);
+    return firebase.auth().signInWithCredential(credential);
+  } catch ({ message }) {
+    alert(message);
+  }
+}
+
+async function signOutAsync() {
+  try {
+    await AsyncStorage.removeItem(GithubStorageKey);
+    await firebase.auth().signOut();
+  } catch ({ message }) {
+    alert("Error: " + message);
+  }
+}
+
+async function attemptToRestoreAuthAsync() {
+  let token = await AsyncStorage.getItem(GithubStorageKey);
+  if (token) {
+    console.log("Sign in with token", token);
+    return signInAsync(token);
+  }
+}
+
+export default class Login extends React.Component {
+  state = { isSignedIn: false };
+
+  componentDidMount() {
+    this.setupFirebaseAsync();
   }
 
-  onLogin() {}
+  setupFirebaseAsync = async () => {
+    firebase.auth().onAuthStateChanged(async auth => {
+      const isSignedIn = !!auth;
+      this.setState({ isSignedIn });
+      if (!isSignedIn) {
+        attemptToRestoreAuthAsync();
+      }
+    });
+  };
 
   render() {
-    const { assetsLoaded } = this.state;
+    if (this.state.isSignedIn) {
+      const user = firebase.auth().currentUser || {};
 
-    if (assetsLoaded) {
       return (
         <View style={styles.container}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.onLogin()}
-          >
-            <Text style={styles.buttonText}> LOG IN </Text>
-          </TouchableOpacity>
-          <Text></Text>
+          <Image source={{ uri: user.photoURL }} style={styles.image} />
+          <Text style={styles.paragraph}>Welcome {user.displayName}</Text>
+          <Text style={styles.paragraph} onPress={() => signOutAsync()}>
+            Logout
+          </Text>
         </View>
       );
     } else {
       return (
-        <View style={styles.container}>
-          <ActivityIndicator />
-          <StatusBar barStyle="default" />
-        </View>
+        <ScrollView>
+          <View style={styles.container}>
+            <View>
+              <Text style={styles.titleText}>YOUR ACCOUNT FOR</Text>
+              <Text style={styles.titleText1}>BUCKET LIST</Text>
+            </View>
+            <View style={styles.gitbutton}>
+              <GithubButton onPress={() => signInAsync()} />
+            </View>
+          </View>
+        </ScrollView>
       );
     }
   }
@@ -52,27 +102,40 @@ export class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    flex: 1,
-    justifyContent: "center",
     alignItems: "center"
   },
-
-  button: {
-    alignItems: "center",
-    backgroundColor: "black",
-    width: 300,
-    height: 44,
-    padding: 10,
-    borderWidth: 1,
-    marginBottom: 10
+  image: {
+    width: 128,
+    height: 128,
+    borderRadius: 64,
+    overflow: "hidden",
+    resizeMode: "contain"
   },
-  buttonText: {
-    fontFamily: "RobotoMono-BoldItalic",
-    fontSize: 20,
+  flexone: {
+    flex: 1
+  },
+  gitbutton: {
     alignItems: "center",
     justifyContent: "center",
-    color: "white"
+    marginTop: height - 250
+  },
+  paragraph: {
+    margin: 24,
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#34495e"
+  },
+  titleText: {
+    fontFamily: "Baskerville",
+    fontWeight: "bold",
+    fontSize: width / 15,
+    marginTop: 70
+  },
+  titleText1: {
+    fontFamily: "Baskerville",
+    fontSize: width / 15,
+    fontWeight: "bold",
+    textAlign: "center"
   }
 });
-
-export default Login;
