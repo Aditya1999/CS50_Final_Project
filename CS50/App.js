@@ -3,11 +3,13 @@ import { createStackNavigator } from "react-navigation-stack";
 import firebase from "firebase";
 import AppIntro from "./screens/AppIntro";
 import Login from "./screens/Login";
+import Home from "./screens/Home";
 
 const AppNavigator = createStackNavigator(
   {
     AppIntro: { screen: AppIntro },
-    Login: { screen: Login }
+    Login: { screen: Login },
+    Home: { screen: Home }
   },
   {
     initialRouteName: "Login",

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
-import links from "../assets/links";
+import "../support/links";
 
 export class AppIntro extends Component {
   render() {

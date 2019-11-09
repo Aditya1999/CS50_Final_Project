@@ -56,7 +56,7 @@ async function attemptToRestoreAuthAsync() {
   }
 }
 
-export default class Login extends React.Component {
+export default class Home extends React.Component {
   state = { isSignedIn: false, assetsLoaded: false };
 
   async componentDidMount() {
@@ -81,7 +81,17 @@ export default class Login extends React.Component {
     const { assetsLoaded } = this.state;
 
     if (this.state.isSignedIn) {
-      return <View>{this.props.navigation.navigate("Home")}</View>;
+      const user = firebase.auth().currentUser || {};
+
+      return (
+        <View style={styles.container2}>
+          <Image source={{ uri: user.photoURL }} style={styles.image} />
+          <Text style={styles.paragraph}>Welcome {user.displayName}</Text>
+          <Text style={styles.paragraph} onPress={() => signOutAsync()}>
+            Logout
+          </Text>
+        </View>
+      );
     } else {
       if (assetsLoaded) {
         return (
