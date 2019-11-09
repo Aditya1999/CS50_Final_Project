@@ -6,9 +6,12 @@ import {
   AsyncStorage,
   StyleSheet,
   ScrollView,
-  Dimensions
+  Dimensions,
+  ActivityIndicator,
+  StatusBar
 } from "react-native";
 import firebase from "firebase";
+import * as Font from "expo-font";
 import getGithubTokenAsync from "../support/getGithubTokenAsync";
 import GithubButton from "../components/GithubButton";
 
@@ -52,10 +55,14 @@ async function attemptToRestoreAuthAsync() {
 }
 
 export default class Login extends React.Component {
-  state = { isSignedIn: false };
+  state = { isSignedIn: false, assetsLoaded: false };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setupFirebaseAsync();
+    await Font.loadAsync({
+      "Monda-Bold": require("../assets/fonts/Monda/Monda-Bold.ttf")
+    });
+    this.setState({ assetsLoaded: true });
   }
 
   setupFirebaseAsync = async () => {
@@ -69,6 +76,8 @@ export default class Login extends React.Component {
   };
 
   render() {
+    const { assetsLoaded } = this.state;
+
     if (this.state.isSignedIn) {
       const user = firebase.auth().currentUser || {};
 
@@ -82,19 +91,28 @@ export default class Login extends React.Component {
         </View>
       );
     } else {
-      return (
-        <ScrollView>
+      if (assetsLoaded) {
+        return (
+          <ScrollView>
+            <View style={styles.container}>
+              <View>
+                <Text style={styles.titleText}>YOUR ACCOUNT FOR</Text>
+                <Text style={styles.titleText1}>CS50</Text>
+              </View>
+              <View style={styles.gitbutton}>
+                <GithubButton onPress={() => signInAsync()} />
+              </View>
+            </View>
+          </ScrollView>
+        );
+      } else {
+        return (
           <View style={styles.container}>
-            <View>
-              <Text style={styles.titleText}>YOUR ACCOUNT FOR</Text>
-              <Text style={styles.titleText1}>BUCKET LIST</Text>
-            </View>
-            <View style={styles.gitbutton}>
-              <GithubButton onPress={() => signInAsync()} />
-            </View>
+            <ActivityIndicator />
+            <StatusBar barStyle="default" />
           </View>
-        </ScrollView>
-      );
+        );
+      }
     }
   }
 }
@@ -127,15 +145,13 @@ const styles = StyleSheet.create({
     color: "#34495e"
   },
   titleText: {
-    fontFamily: "Baskerville",
-    fontWeight: "bold",
-    fontSize: width / 15,
+    fontFamily: "Monda-Bold",
+    fontSize: width / 14,
     marginTop: 70
   },
   titleText1: {
-    fontFamily: "Baskerville",
-    fontSize: width / 15,
-    fontWeight: "bold",
+    fontFamily: "Monda-Bold",
+    fontSize: width / 14,
     textAlign: "center"
   }
 });
