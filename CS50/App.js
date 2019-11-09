@@ -1,19 +1,39 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import firebase from "firebase";
+import AppIntro from "./screens/AppIntro";
+import Login from "./screens/Login";
+import Home from "./screens/Home";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hello World</Text>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const AppNavigator = createStackNavigator(
+  {
+    AppIntro: { screen: AppIntro },
+    Login: { screen: Login },
+    Home: { screen: Home }
   },
-});
+  {
+    initialRouteName: "Login",
+    defaultNavigationOptions: {
+      header: null,
+      gesturesEnabled: false
+    }
+  }
+);
+
+const App = createAppContainer(AppNavigator);
+
+// App's Firebase configuration
+var firebaseConfig = {
+  apiKey: "***",
+  authDomain: "***",
+  databaseURL: "***",
+  projectId: "***",
+  storageBucket: "***",
+  messagingSenderId: "***",
+  appId: "***",
+  measurementId: "***"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+export default App;
