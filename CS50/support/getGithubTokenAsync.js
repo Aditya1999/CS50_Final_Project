@@ -4,8 +4,8 @@ const REDIRECT_URL = AuthSession.getRedirectUrl();
 
 // Add your API stuff here...
 const github = {
-  id: "***",
-  secret: "***"
+  id: "cd256c036bc7add2db72",
+  secret: "409316a1c4d8419d90c44881f88a6049e7e8649c"
 };
 
 const githubFields = [

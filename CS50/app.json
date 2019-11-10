@@ -30,6 +30,7 @@
     "android": {
       "package": "com.cs50.dhairya"
     },
-    "description": ""
+    "description": "This is Final Project for CS50x and is Developed Using React Native(Expo)",
+    "githubUrl": "https://github.com/dhairya0907/CS50_Final_Project"
   }
 }

@@ -32,10 +32,10 @@ export class AppIntroSlider extends React.Component {
     dotStyle: {
       backgroundColor: "rgba(0, 255, 255, 1.0)"
     },
-    skipLabel: "Skip",
-    doneLabel: "Done",
+    skipLabel: "",
+    doneLabel: "",
     nextLabel: "",
-    prevLabel: "Back",
+    prevLabel: "",
     buttonStyle: null,
     buttonTextStyle: null,
     paginationStyle: null,
