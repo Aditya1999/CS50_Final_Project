@@ -1,9 +1,9 @@
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import firebase from "firebase";
-import AppIntro from "./screens/AppIntro";
-import Login from "./screens/Login";
-import Home from "./screens/Home";
+import AppIntro from "./Screens/AppIntro";
+import Login from "./Screens/Login";
+import Home from "./Screens/Home";
 
 const AppNavigator = createStackNavigator(
   {

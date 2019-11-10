@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Image,
   Text,
   View,
   AsyncStorage,
@@ -39,15 +38,6 @@ async function signInAsync(token) {
   }
 }
 
-async function signOutAsync() {
-  try {
-    await AsyncStorage.removeItem(GithubStorageKey);
-    await firebase.auth().signOut();
-  } catch ({ message }) {
-    alert("Error: " + message);
-  }
-}
-
 async function attemptToRestoreAuthAsync() {
   let token = await AsyncStorage.getItem(GithubStorageKey);
   if (token) {
@@ -77,11 +67,28 @@ export default class Login extends React.Component {
     });
   };
 
+  onSignUp() {
+    const user = firebase.auth().currentUser || {};
+    firebase
+      .database()
+      .ref("users/" + user.uid)
+      .set({
+        email: user.email,
+        name: user.displayName,
+        profile_photo_url: user.photoURL
+      });
+  }
+
   render() {
     const { assetsLoaded } = this.state;
 
     if (this.state.isSignedIn) {
-      return <View>{this.props.navigation.navigate("Home")}</View>;
+      return (
+        <View>
+          {this.onSignUp()}
+          {this.props.navigation.navigate("Home")}
+        </View>
+      );
     } else {
       if (assetsLoaded) {
         return (
@@ -145,13 +152,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#34495e"
   },
   titleText: {
     fontFamily: "Monda-Bold",
