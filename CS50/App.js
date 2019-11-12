@@ -1,18 +1,19 @@
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import firebase from "firebase";
+import "./support/Api";
 import AppIntro from "./Screens/AppIntro";
 import Login from "./Screens/Login";
-import Home from "./Screens/Home";
+import NavigationDrawer from "./support/NavigationDrawer";
 
 const AppNavigator = createStackNavigator(
   {
     AppIntro: { screen: AppIntro },
     Login: { screen: Login },
-    Home: { screen: Home }
+    NavigationDrawer: { screen: NavigationDrawer }
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "NavigationDrawer",
     defaultNavigationOptions: {
       header: null,
       gesturesEnabled: false
@@ -24,14 +25,14 @@ const App = createAppContainer(AppNavigator);
 
 // App's Firebase configuration
 var firebaseConfig = {
-  apiKey: "***",
-  authDomain: "***",
-  databaseURL: "***",
-  projectId: "***",
-  storageBucket: "***",
-  messagingSenderId: "***",
-  appId: "***",
-  measurementId: "***"
+  apiKey: FirebaseApiKey,
+  authDomain: FirebaseAuthDomain,
+  databaseURL: FirebaseDatabaseURL,
+  projectId: FirebaseProjectId,
+  storageBucket: FirebaseStorageBucket,
+  messagingSenderId: FirebaseMessagingSenderId,
+  appId: FirebaseAppId,
+  measurementId: FirebaseMeasurementId
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

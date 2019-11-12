@@ -1,8 +1,5 @@
-//This is an example code for Navigation Drawer with Custom Side bar//
-//This Example is for React Navigation 3.+//
 import React, { Component } from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
-//import { Icon } from "react-native-elements";
 import Icon from "react-native-vector-icons/AntDesign";
 
 export default class CustomSidebarMenu extends Component {
@@ -10,51 +7,57 @@ export default class CustomSidebarMenu extends Component {
     super();
     //Setting up the Main Top Large Image of the Custom Sidebar
     this.proileImage = "https://avatars1.githubusercontent.com/u/46569925?v=4";
-    //Array of the sidebar navigation option with icon and screen to navigate
-    //This screens can be any screen defined in Drawer Navigator in App.js
-    //You can find the Icons from here https://material.io/tools/icons/
+
     this.items = [
       {
         navOptionThumb: "home",
         navOptionName: "Home",
-        screenToNavigate: "NavScreen1"
+        screenToNavigate: "NavHome"
       },
       {
         navOptionThumb: "profile",
         navOptionName: "Profile",
-        screenToNavigate: "NavScreen2"
+        screenToNavigate: "NavProfile"
       },
       {
         navOptionThumb: "notification",
         navOptionName: "Notifications",
-        screenToNavigate: "NavScreen3"
+        screenToNavigate: "NavNotifications"
       },
       {
-        navOptionThumb: "codesquare",
+        navOptionThumb: "book",
+        navOptionName: "Learn",
+        screenToNavigate: "NavLearn"
+      },
+      {
+        navOptionThumb: "barschart",
         navOptionName: "CS50 Progress",
-        screenToNavigate: "NavScreen3"
+        screenToNavigate: "NavCS50Progress"
+      },
+      {
+        navOptionThumb: "idcard",
+        navOptionName: "Certificates",
+        screenToNavigate: "NavCertificates"
       },
       {
         navOptionThumb: "wechat",
         navOptionName: "Chat",
-        screenToNavigate: "NavScreen3"
+        screenToNavigate: "NavChat"
       },
       {
         navOptionThumb: "logout",
         navOptionName: "Sign Out",
-        screenToNavigate: "NavScreen1"
+        screenToNavigate: "NavSignOut"
       }
     ];
   }
   render() {
     return (
       <View style={styles.sideMenuContainer}>
-        {/*Top Large Image */}
         <Image
           source={{ uri: this.proileImage }}
           style={styles.sideMenuProfileIcon}
         />
-        {/*Divider between Top Image and Sidebar Option*/}
         <View
           style={{
             width: "100%",
@@ -63,7 +66,6 @@ export default class CustomSidebarMenu extends Component {
             marginTop: 15
           }}
         />
-        {/*Setting up Navigation Options from option array using loop*/}
         <View style={{ width: "100%" }}>
           {this.items.map((item, key) => (
             <View
@@ -81,7 +83,7 @@ export default class CustomSidebarMenu extends Component {
               </View>
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: 20,
                   color: global.currentScreenIndex === key ? "red" : "black"
                 }}
                 onPress={() => {

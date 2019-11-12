@@ -1,11 +1,12 @@
 import { AuthSession } from "expo";
+import "./Api";
 
 const REDIRECT_URL = AuthSession.getRedirectUrl();
 
 // Add your API stuff here...
 const github = {
-  id: "***",
-  secret: "***"
+  id: GithubId,
+  secret: GithubSecret
 };
 
 const githubFields = [

@@ -86,7 +86,7 @@ export default class Login extends React.Component {
       return (
         <View>
           {this.onSignUp()}
-          {this.props.navigation.navigate("Home")}
+          {this.props.navigation.navigate("NavigationDrawer")}
         </View>
       );
     } else {
