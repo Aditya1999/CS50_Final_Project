@@ -1,25 +1,14 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { WebView } from "react-native-webview";
 
 export default class CS50Progress extends Component {
   render() {
     return (
-      <View style={styles.MainContainer}>
-        <Text style={{ fontSize: 23 }}>
-          {" "}
-          Screen {global.currentScreenIndex + 1}{" "}
-        </Text>
-      </View>
+      <WebView
+        source={{
+          uri: "https://cs50.me/cs50x"
+        }}
+      />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  MainContainer: {
-    flex: 1,
-    paddingTop: 20,
-    alignItems: "center",
-    marginTop: 50,
-    justifyContent: "center"
-  }
-});

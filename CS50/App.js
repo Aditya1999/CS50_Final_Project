@@ -13,7 +13,7 @@ const AppNavigator = createStackNavigator(
     NavigationDrawer: { screen: NavigationDrawer }
   },
   {
-    initialRouteName: "NavigationDrawer",
+    initialRouteName: "AppIntro",
     defaultNavigationOptions: {
       header: null,
       gesturesEnabled: false
