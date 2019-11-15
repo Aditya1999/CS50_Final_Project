@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, Text, View, AsyncStorage, StyleSheet } from "react-native";
+import { AsyncStorage, Alert } from "react-native";
 import firebase from "firebase";
 import "../support/links";
 
@@ -15,50 +15,38 @@ async function signOutAsync() {
 }
 
 export default class SignOut extends React.Component {
-  render() {
-    const user = firebase.auth().currentUser || {};
-
-    return (
-      <View style={styles.container2}>
-        <Image source={{ uri: user.photoURL }} style={styles.image} />
-        <Text style={styles.paragraph}>Welcome {user.displayName}</Text>
-        <Text
-          style={styles.paragraph}
-          onPress={() => signOutAsync(this.props.navigation.navigate("Login"))}
-        >
-          Logout
-        </Text>
-      </View>
+  componentDidMount() {
+    this.subs = this.props.navigation.addListener("didFocus", () =>
+      this.SignOutAlert()
     );
   }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    alignItems: "center"
-  },
-  container2: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#ecf0f1"
-  },
-  image: {
-    width: 128,
-    height: 128,
-    borderRadius: 64,
-    overflow: "hidden",
-    resizeMode: "contain"
-  },
-  flexone: {
-    flex: 1
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#34495e"
+  componentWillUnmount() {
+    this.subs.remove();
   }
-});
+  notSignOut() {
+    global.currentScreenIndex = 0;
+    this.props.navigation.goBack(null);
+  }
+  isSignOut() {
+    global.currentScreenIndex = 0;
+    signOutAsync(this.props.navigation.navigate("AppIntro"));
+  }
+
+  SignOutAlert() {
+    Alert.alert("Are You Sure?", "", [
+      {
+        text: "Cancel",
+        onPress: () => this.notSignOut(),
+        style: "cancel"
+      },
+      {
+        text: "YES",
+        onPress: () => this.isSignOut()
+      }
+    ]);
+  }
+
+  render() {
+    return null;
+  }
+}
