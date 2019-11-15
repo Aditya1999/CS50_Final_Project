@@ -1,25 +1,18 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
-
+import { StyleSheet, View, StatusBar } from "react-native";
+import Routes from "../support/Route";
 export default class Learn extends Component {
   render() {
     return (
-      <View style={styles.MainContainer}>
-        <Text style={{ fontSize: 23 }}>
-          {" "}
-          Screen {global.currentScreenIndex + 1}{" "}
-        </Text>
+      <View style={styles.container}>
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <Routes />
       </View>
     );
   }
 }
-
 const styles = StyleSheet.create({
-  MainContainer: {
-    flex: 1,
-    paddingTop: 20,
-    alignItems: "center",
-    marginTop: 50,
-    justifyContent: "center"
+  container: {
+    flex: 1
   }
 });
