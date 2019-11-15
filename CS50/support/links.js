@@ -8,3 +8,4 @@ slider_img3 =
   "https://firebasestorage.googleapis.com/v0/b/cs50-b2a0f.appspot.com/o/assets%2Fslider_img3.JPG?alt=media&token=19dcce0b-bbfe-4f21-b145-8162f6c9aaa9";
 login_intro_video =
   "https://firebasestorage.googleapis.com/v0/b/cs50-b2a0f.appspot.com/o/assets%2Flogin_intro_video.mp4?alt=media&token=d8e44b38-096e-4900-ba0e-ae922a6a183e";
+cs50progress = "https://cs50.me/cs50x";
