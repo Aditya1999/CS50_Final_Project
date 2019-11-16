@@ -45,6 +45,7 @@ export default class LearnList extends Component {
               style={styles.demacate}
               onPress={() => this.LearnVideo(item.contentDetails.videoId)}
             >
+              <Text style={styles.item}></Text>
               <Text style={styles.item}>{item.snippet.title}</Text>
             </TouchableOpacity>
           )}

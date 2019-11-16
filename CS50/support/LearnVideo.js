@@ -1,35 +1,50 @@
 import React, { Component } from "react";
-import { StyleSheet, SafeAreaView, View, WebView } from "react-native";
-import { Actions } from "react-native-router-flux";
+import { WebView } from "react-native-webview";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Dimensions,
+  Platform
+} from "react-native";
+import { Linking, WebBrowser } from "expo";
+
+const { width, height } = Dimensions.get("window");
+
 export default class LearnVideo extends Component {
-  LearnList() {
-    Actions.LearnList();
+  open() {
+    Linking.openURL("https://www.youtube.com/watch?v=" + this.props.video_url);
+    global.currentScreenIndex = 3;
+    this.props.navigation.goBack(null);
   }
-  LearnVideo() {
-    Actions.LearnVideo();
-  }
-  constructor(props) {
-    super(props);
-    console.log(this.props);
+  LoadingIndicatorView() {
+    return (
+      <ActivityIndicator
+        color="#009b88"
+        size="large"
+        style={styles.ActivityIndicatorStyle}
+      />
+    );
   }
   render() {
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        {
-          <WebView
-            source={{
-              uri: "https://www.youtube.com/embed/" + this.props.video_url
-            }}
-            startInLoadingState={true}
-          />
-        }
-      </SafeAreaView>
-    );
+    if (Platform.OS === "android") {
+      this.open();
+      return null;
+    } else {
+      return (
+        <WebView
+          source={{
+            uri: "https://www.youtube.com/watch?v=" + this.props.video_url
+          }}
+          renderLoading={this.LoadingIndicatorView}
+          startInLoadingState={true}
+        />
+      );
+    }
   }
 }
 const styles = StyleSheet.create({
-  safeArea: {
+  ActivityIndicatorStyle: {
     flex: 1,
-    backgroundColor: "#fff"
+    marginVertical: height / 2
   }
 });
