@@ -69,12 +69,14 @@ export default class Login extends React.Component {
 
   onSignUp() {
     const user = firebase.auth().currentUser || {};
+    console.log(user);
     firebase
       .database()
       .ref("users/" + user.uid)
       .set({
         email: user.email,
         name: user.displayName,
+        // username: user,
         profile_photo_url: user.photoURL
       });
   }
