@@ -1,25 +1,54 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { WebView } from "react-native-webview";
+import { ActivityIndicator, StyleSheet, Dimensions } from "react-native";
+import "../support/links";
 
-export default class Certificates extends Component {
+const { width, height } = Dimensions.get("window");
+
+export default class CS50Progress extends Component {
+  componentDidMount() {
+    this.subs = this.props.navigation.addListener("didFocus", () =>
+      this.resetWebViewToInitialUrl()
+    );
+  }
+  componentWillUnmount() {
+    this.subs.remove();
+  }
+  state = {
+    key: 1
+  };
+
+  resetWebViewToInitialUrl = () => {
+    this.setState({
+      key: this.state.key + 1
+    });
+  };
+
+  LoadingIndicatorView() {
+    return (
+      <ActivityIndicator
+        color="#009b88"
+        size="large"
+        style={styles.ActivityIndicatorStyle}
+      />
+    );
+  }
   render() {
     return (
-      <View style={styles.MainContainer}>
-        <Text style={{ fontSize: 23 }}>
-          {" "}
-          Screen {global.currentScreenIndex + 1}{" "}
-        </Text>
-      </View>
+      <WebView
+        key={this.state.key}
+        source={{
+          uri: cs50certificates
+        }}
+        renderLoading={this.LoadingIndicatorView}
+        startInLoadingState={true}
+      />
     );
   }
 }
-
 const styles = StyleSheet.create({
-  MainContainer: {
+  ActivityIndicatorStyle: {
     flex: 1,
-    paddingTop: 20,
-    alignItems: "center",
-    marginTop: 50,
-    justifyContent: "center"
+    marginVertical: height / 2
   }
 });

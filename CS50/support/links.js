@@ -9,3 +9,4 @@ slider_img3 =
 login_intro_video =
   "https://firebasestorage.googleapis.com/v0/b/cs50-b2a0f.appspot.com/o/assets%2Flogin_intro_video.mp4?alt=media&token=d8e44b38-096e-4900-ba0e-ae922a6a183e";
 cs50progress = "https://cs50.me/cs50x";
+cs50certificates = "https://certificates.cs50.io";

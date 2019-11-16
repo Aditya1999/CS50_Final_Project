@@ -6,6 +6,24 @@ import "../support/links";
 const { width, height } = Dimensions.get("window");
 
 export default class CS50Progress extends Component {
+  componentDidMount() {
+    this.subs = this.props.navigation.addListener("didFocus", () =>
+      this.resetWebViewToInitialUrl()
+    );
+  }
+  componentWillUnmount() {
+    this.subs.remove();
+  }
+  state = {
+    key: 1
+  };
+
+  resetWebViewToInitialUrl = () => {
+    this.setState({
+      key: this.state.key + 1
+    });
+  };
+
   LoadingIndicatorView() {
     return (
       <ActivityIndicator
@@ -18,6 +36,7 @@ export default class CS50Progress extends Component {
   render() {
     return (
       <WebView
+        key={this.state.key}
         source={{
           uri: cs50progress
         }}
