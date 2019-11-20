@@ -5,7 +5,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import HomeScreen from "../Screens/Home";
 import ProfileScreen from "../Screens/Profile";
-import NotificationsScreen from "../Screens/Notifications";
+import AboutScreen from "../Screens/About";
 import LearnScreen from "../Screens/Learn";
 import CS50ProgressScreen from "../Screens/CS50Progress";
 import CertificatesScreen from "../Screens/Certificates";
@@ -62,11 +62,11 @@ const Profile = createStackNavigator({
   }
 });
 
-const Notifications = createStackNavigator({
+const About = createStackNavigator({
   Third: {
-    screen: NotificationsScreen,
+    screen: AboutScreen,
     navigationOptions: ({ navigation }) => ({
-      title: "Notifications",
+      title: "About",
       headerLeft: <NavigationDrawer navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: "#FF9800"
@@ -160,8 +160,8 @@ const DrawerNavigator = createDrawerNavigator(
         drawerLabel: "Profile"
       }
     },
-    NavNotifications: {
-      screen: Notifications,
+    NavAbout: {
+      screen: About,
       navigationOptions: {
         drawerLabel: "Notifications"
       }

@@ -2,7 +2,8 @@
 import React from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 import firebase from "firebase";
-
+import KeyboardSpacer from "react-native-keyboard-spacer";
+import { View, Platform } from "react-native";
 import ChatSupport from "../support/ChatSupport";
 
 type Props = {
@@ -15,24 +16,32 @@ class Chat extends React.Component<Props> {
   });
 
   state = {
-    messages: []
+    messages: [],
+    showAvatarForEveryMessage: false
   };
 
   get user() {
     const user = firebase.auth().currentUser || {};
     return {
       name: user.displayName,
-      _id: ChatSupport.shared.uid
+      _id: ChatSupport.shared.uid,
+      avatar: user.photoURL
     };
+  }
+  onPressAvatar() {
+    alert("User Name: " + user.displayName);
   }
 
   render() {
     return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={ChatSupport.shared.send}
-        user={this.user}
-      />
+      <View style={{ flex: 1 }}>
+        <GiftedChat
+          messages={this.state.messages}
+          onSend={ChatSupport.shared.send}
+          user={this.user}
+        />
+        {Platform.OS === "android" ? <KeyboardSpacer /> : null}
+      </View>
     );
   }
 

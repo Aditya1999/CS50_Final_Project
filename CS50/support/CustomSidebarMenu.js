@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
+import firebase from "firebase";
 import Icon from "react-native-vector-icons/AntDesign";
 
 export default class CustomSidebarMenu extends Component {
   constructor() {
     super();
     //Setting up the Main Top Large Image of the Custom Sidebar
-    this.proileImage = "https://avatars1.githubusercontent.com/u/46569925?v=4";
+    const user = firebase.auth().currentUser || {};
+    this.proileImage = user.photoURL;
 
     this.items = [
       {
@@ -18,11 +20,6 @@ export default class CustomSidebarMenu extends Component {
         navOptionThumb: "profile",
         navOptionName: "Profile",
         screenToNavigate: "NavProfile"
-      },
-      {
-        navOptionThumb: "notification",
-        navOptionName: "Notifications",
-        screenToNavigate: "NavNotifications"
       },
       {
         navOptionThumb: "book",
@@ -43,6 +40,11 @@ export default class CustomSidebarMenu extends Component {
         navOptionThumb: "wechat",
         navOptionName: "Chat",
         screenToNavigate: "NavChat"
+      },
+      {
+        navOptionThumb: "info",
+        navOptionName: "About",
+        screenToNavigate: "NavAbout"
       },
       {
         navOptionThumb: "logout",

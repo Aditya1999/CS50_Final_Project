@@ -6,7 +6,7 @@ class ChatSupport {
   }
 
   get ref() {
-    return firebase.database().ref("messages");
+    return firebase.database().ref("messages/general");
   }
 
   parse = snapshot => {
